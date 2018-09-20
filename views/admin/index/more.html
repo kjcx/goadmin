@@ -1,0 +1,38 @@
+{include file="public/header"}
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+
+           {php} foreach ($data as $key => $value) { {/php}
+           
+                <div class="col-sm-3">
+                    
+                    <div class="contact-box">
+                        <a href="{:url('admin/order/order_detail',['id'=>$value['id']])}">
+                            <div class="col-sm-8">
+                                
+                            <address>
+                                <strong>订单号:{$value['order_num']}</strong><br>
+                                <br>
+                                 <strong>时间:{$value['addtime']|date="y-m-d",###}</strong><br>
+                            </address>
+                            </div>
+                            <div class="clearfix"></div>
+                        </a>
+                    </div>
+                    
+                </div>
+            
+            {php} } {/php}
+        
+            
+           
+        </div>
+    </div>
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="js/content.min.js?v=1.0.0"></script>
+    <script>
+        $(document).ready(function(){$(".contact-box").each(function(){animationHover(this,"pulse")})});
+    </script>
+</body>

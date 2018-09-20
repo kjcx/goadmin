@@ -1,0 +1,96 @@
+{include file="public/header"}
+<body>
+<div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>添加管理员<small></small></h5>
+                    </div>
+                    <div class="ibox-content">
+                        <form method="post" class="form-horizontal">
+                            <div class="form-group">
+						        <label class="col-sm-3 control-label">用户名:</label>
+						        <div class="col-sm-9">
+						            <input type="text" name="user_name" required="true" class="form-control" placeholder="请输入用户名"> <span class="help-block m-b-none"></span>
+
+						        </div>
+						    </div>
+						    <div class="form-group">
+						        <label class="col-sm-3 control-label">密码：</label>
+						        <div class="col-sm-9">
+						            <input type="password" required="true" class="form-control" name="password" placeholder="请输入密码"> <span class="help-block m-b-none"></span>
+						        </div>
+						    </div>
+						    <div class="form-group">
+						        <label class="col-sm-3 control-label">结算授权码：</label>
+						        <div class="col-sm-9">
+						            <input type="password" required="true" class="form-control" name="settlement_code" placeholder="请输入结算授权码"> <span class="help-block m-b-none"></span>
+						        </div>
+						    </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">角色:</label>
+                                <div class="col-sm-9">
+                                    <select  class="form-control" name="role_id">
+											<option value="">请选择角色</option>
+                                        {volist name="get_role_list" id="vo"}
+                                        	<option value="{$vo.id}">{$vo.title}</option>
+										{/volist}
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">商家:</label>
+                                <div class="col-sm-9">
+                                    <select  class="form-control" name="business_id">
+											<option value="">请选择商家</option>
+                                        {volist name="business" id="vo"}
+                                        	<option value="{$vo.id}">{$vo.business_name}</option>
+										{/volist}
+                                    </select>
+
+                                </div>
+                            </div>
+						    <div class="form-group">
+						        <label class="col-sm-3 control-label">公司名称:</label>
+						        <div class="col-sm-9">
+						            <input type="text" name="company" class="form-control" placeholder="请输入公司名称"> <span class="help-block m-b-none"></span>
+
+						        </div>
+						    </div>
+						    <div class="form-group">
+						        <label class="col-sm-3 control-label">姓名:</label>
+						        <div class="col-sm-9">
+						            <input type="text" name="name" class="form-control" placeholder="请输入姓名"> <span class="help-block m-b-none"></span>
+
+						        </div>
+						    </div>
+						   	<div class="form-group">
+						        <label class="col-sm-3 control-label">邮箱:</label>
+						        <div class="col-sm-9">
+						            <input type="email" name="email" class="form-control" placeholder="请输入邮箱"> <span class="help-block m-b-none"></span>
+
+						        </div>
+						    </div>
+						    <div class="form-group">
+						        <label class="col-sm-3 control-label">联系电话:</label>
+						        <div class="col-sm-9">
+						            <input type="text" name="phone" class="form-control" placeholder="请输入电话"> <span class="help-block m-b-none"></span>
+						        </div>
+						    </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-4">
+                                    <button class="btn btn-primary" type="submit">保存内容</button>
+                                    <div class="btn btn-white" onclick="javascript:history.go(-1)">取消</div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

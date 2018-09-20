@@ -1,0 +1,308 @@
+{include file="public/header"}
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+   
+        <!-- Panel Other -->
+        <div class="ibox float-e-margins">
+           
+            <div class="ibox-content">
+                <div class="row row-lg">
+                   
+                    <div class="col-sm-12">
+                        <!-- Example Pagination -->
+                        <div class="example-wrap">
+                            <h4 class="example-title">
+								<div id="toolbar">
+							        <a href="{:url('admin/admin/role_add')}"><button  class="btn btn-success">
+							           添加角色
+							        </button></a>
+							    </div>
+                            </h4>
+                            <div class="example">
+                                <div class="fixed-table-toolbar">
+                                    <div class="bars pull-left">
+                                        <div class="btn-group hidden-xs" id="exampleToolbar" role="group">
+                                            <button type="button" class="btn btn-outline btn-default">
+                                                <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-outline btn-default">
+                                                <i class="glyphicon glyphicon-edit" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-outline btn-default">
+                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                         
+                                <table id="table" data-toggle="table"  data-search="true" data-show-export="true"  data-show-pagination-switch="false" data-pagination="true"  data-page-list="[20, 25, 50, 100, ALL]" data-show-footer="false" data-page-size="20" data-side-pagination="server" data-url="{:url('admin/admin/ajax_role')}">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="state" data-checkbox="true"></th>
+                                            <th data-field="user_id">ID</th>
+                                            <th data-halign="center" data-field="username">名称1</th>
+                                            <th data-halign="center"  data-field="company">公司</th>
+                                            <th data-halign="center" data-field="money">余额</th>
+                                            <th data-halign="center" data-field="credit">信用额度</th>
+                                            <th data-halign="center" data-field="sms">短信</th>
+                                            <th data-halign="center" data-field="reg_time">注册时间</th>
+                                            <th data-halign="center" data-field="operate">操作</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- End Example Pagination -->
+                    </div>
+
+                   
+                </div>
+            </div>
+        </div>
+        <!-- End Panel Other -->
+    </div>
+    <div style="position: absolute;top:100px;left: 200px;background: #000;z-index: 1000">
+        
+    </div>
+{include file="public/footer"}
+<script>
+    var $table = $('#table'),
+        $remove = $('#remove'),
+        selections = [];
+    $table.on('click-row.bs.table', function (e, row) {
+        console.log(row);
+    });
+
+    $table.on('dbl-click-row.bs.table', function (e, row) {
+       swal({
+                title: "您确定要删除这条信息吗",
+                text: "删除后将无法恢复，请谨慎操作！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "删除",
+                closeOnConfirm: false
+            }, function () {
+                swal("删除成功！", "您已经永久删除了这条信息。", "success");
+            });
+    });
+
+    window.operateEvents = {
+        'click .like': function (e, value, row, index) {
+            alert('You click like action, row: ' + JSON.stringify(row));
+             var url = '{:url('agent/agent_edit','','')}';
+            var agent_id = row.user_id;
+            window.location.href= url + '/agent_id/' + agent_id;
+        },
+        'click .remove': function (e, value, row, index) {
+            $table.bootstrapTable('remove', {
+                field: 'id',
+                values: [row.id]
+            });
+        }
+    };
+
+    $table.bootstrapTable({
+            height: getHeight(),
+            columns: [
+                [
+                    
+                    {
+                        field: 'state',
+                        checkbox: true,
+                        rowspan: 1,
+                        width:50,
+                        align: 'center',
+                        valign: 'middle'
+                    },
+                   {
+                        field: 'user_id',
+                        title: 'id',
+                        width:50,
+                        sortable: true,
+                        editable: true,
+                        align: 'center'
+                    },{
+                        field: 'username',
+                        title: '用户名',
+                        sortable: true,
+                        editable: true,
+                        align: 'center'
+                    }, {
+                        field: 'company',
+                        title: '公司',
+                        sortable: true,
+                        align: 'center',
+                        
+                    }, 
+                    {
+                        field:'credit',
+                        title:'信用额度',
+                        align: 'center'
+                    },
+                    {
+                        field:'money',
+                        title:'余额',
+                        align: 'center'
+                    },
+                    {
+                        field:'reg_time',
+                        title:'注册时间',
+                        align: 'center'
+                    },
+                    {
+                        field:'sms',
+                        title:'短信',
+                        align: 'center'
+                    }
+                    ,
+                    {
+                        field: 'operate',
+                        title: '操作',
+                        align: 'center',
+                        events: operateEvents,
+                        formatter: operateFormatter
+                    }
+                ]
+            ]
+        });
+  
+    function getIdSelections() {
+        return $.map($table.bootstrapTable('getSelections'), function (row) {
+            return row.id
+        });
+    }
+
+    function responseHandler(res) {
+        $.each(res.rows, function (i, row) {
+            row.state = $.inArray(row.id, selections) !== -1;
+        });
+        return res;
+    }
+
+    function detailFormatter(index, row) {
+        var html = [];
+        $.each(row, function (key, value) {
+            html.push('<p><b>' + key + ':</b> ' + value + '</p>');
+        });
+        return html.join('');
+    }
+
+    function operateFormatter(value, row, index) {
+        return [
+            '<a class="like" href="javascript:void(0)" title="Like">',
+            '<i class="glyphicon glyphicon-edit"></i>',
+            '</a>  ',
+            '<a class="remove" href="javascript:void(0)" title="Remove">',
+            '<i class="glyphicon glyphicon-remove"></i>',
+            '</a>'
+        ].join('');
+    }
+
+    window.operateEvents = {
+        'click .like': function (e, value, row, index) {
+            alert('You click like action, row1: ' + JSON.stringify(row));
+              
+        },
+        'click .remove': function (e, value, row, index) {
+             swal({
+                title: "您确定要删除这条信息吗",
+                text: "删除后将无法恢复，请谨慎操作！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "删除",
+                closeOnConfirm: false
+            }, function () {
+                swal("删除成功！", "您已经永久删除了这条信息。", "success");
+            });
+            // $table.bootstrapTable('remove', {
+            //     field: 'id',
+            //     values: [row.id]
+            // });
+        }
+    };
+
+    function totalTextFormatter(data) {
+        return 'Total';
+    }
+
+    function totalNameFormatter(data) {
+        return data.length;
+    }
+
+    function totalPriceFormatter(data) {
+        var total = 0;
+        $.each(data, function (i, row) {
+            total += +(row.price.substring(1));
+        });
+        return '$' + total;
+    }
+
+    function getHeight() {
+        return $(window).height() - $('h1').outerHeight(true);
+    }
+
+    $(function () {
+        var scripts = [
+                location.search.substring(1) || 'assets/bootstrap-table/src/bootstrap-table.js',
+                'assets/bootstrap-table/src/extensions/export/bootstrap-table-export.js',
+                'http://rawgit.com/hhurz/tableExport.jquery.plugin/master/tableExport.js',
+                'assets/bootstrap-table/src/extensions/editable/bootstrap-table-editable.js',
+                'http://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/js/bootstrap-editable.js'
+            ],
+            eachSeries = function (arr, iterator, callback) {
+                callback = callback || function () {};
+                if (!arr.length) {
+                    return callback();
+                }
+                var completed = 0;
+                var iterate = function () {
+                    iterator(arr[completed], function (err) {
+                        if (err) {
+                            callback(err);
+                            callback = function () {};
+                        }
+                        else {
+                            completed += 1;
+                            if (completed >= arr.length) {
+                                callback(null);
+                            }
+                            else {
+                                iterate();
+                            }
+                        }
+                    });
+                };
+                iterate();
+            };
+
+        eachSeries(scripts, getScript, initTable);
+    });
+
+    function getScript(url, callback) {
+        var head = document.getElementsByTagName('head')[0];
+        var script = document.createElement('script');
+        script.src = url;
+
+        var done = false;
+        // Attach handlers for all browsers
+        script.onload = script.onreadystatechange = function() {
+            if (!done && (!this.readyState ||
+                    this.readyState == 'loaded' || this.readyState == 'complete')) {
+                done = true;
+                if (callback)
+                    callback();
+
+                // Handle memory leak in IE
+                script.onload = script.onreadystatechange = null;
+            }
+        };
+
+        head.appendChild(script);
+
+        // We handle everything using the script element injection
+        return undefined;
+    }
+
+</script>
