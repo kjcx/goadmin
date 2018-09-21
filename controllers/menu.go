@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"github.com/astaxie/beego"
 	"goadmin/models"
 )
@@ -8,6 +9,21 @@ type MenuController struct {
 	beego.Controller
 }
 
+func (c *MenuController) Prepare() {
+	ar := models.AuthRule{}
+	Url := c.Ctx.Request.URL.Path
+	fmt.Println("PreparePrepare",Url)
+
+	bool := ar.Check(Url,3,1)
+	if bool {
+		c.Data["json"] = "无权访问"
+		c.ServeJSON()
+	}else{
+		c.Data["json"] = "无权访问"
+		c.ServeJSON()
+	}
+	return
+}
 //菜单列表
 func (c *MenuController)Index(){
 	c.TplName = "admin/menu/index.html"

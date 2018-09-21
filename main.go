@@ -13,6 +13,9 @@ func init() {
 	//
 	//// register model
 	orm.RegisterModelWithPrefix("th_", new(models.Menu))
+	orm.RegisterModelWithPrefix("th_", new(models.User))
+	orm.RegisterModelWithPrefix("th_", new(models.AuthGroup))
+	orm.RegisterModelWithPrefix("th_", new(models.AuthRule))
 }
 func FunStatus(status int)(out string){
 	if status == 1 {
@@ -22,6 +25,7 @@ func FunStatus(status int)(out string){
 	}
 }
 func main() {
+	orm.Debug = true
 	beego.SetStaticPath("/__CSS__", "static/admin/css")
 	beego.SetStaticPath("/__JS__", "static/admin/js")
 	beego.SetStaticPath("/__IMG__", "static/admin/img")
