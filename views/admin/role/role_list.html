@@ -1,0 +1,281 @@
+{{template  "/admin/public/header.html"}}
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+   
+        <!-- Panel Other -->
+        <div class="ibox float-e-margins">
+           
+            <div class="ibox-content">
+                <div class="row row-lg">
+                   
+                    <div class="col-sm-12">
+                        <!-- Example Pagination -->
+                        <div class="example-wrap">
+                            <h4 class="example-title">
+								<div id="toolbar">
+							        <a href="{:url('admin/role/role_add')}"><button  class="btn btn-success">
+							           添加角色
+							        </button></a>
+							    </div>
+                            </h4>
+                            <div class="example">
+                                <div class="fixed-table-toolbar">
+                                    <div class="bars pull-left">
+                                        <div class="btn-group hidden-xs" id="exampleToolbar" role="group">
+                                            <button type="button" class="btn btn-outline btn-default">
+                                                <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-outline btn-default">
+                                                <i class="glyphicon glyphicon-edit" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-outline btn-default">
+                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                         
+                                <table id="table" data-toggle="table"  data-search="true" data-show-export="true"  data-show-pagination-switch="false" data-pagination="true"  data-page-list="[20, 25, 50, 100, ALL]" data-show-footer="false" data-page-size="20" data-side-pagination="server" data-url='{{urlfor "RoleController.Ajax"}}'>
+                                    <thead>
+                                        <tr>
+                                            <th data-field="state" data-checkbox="true"></th>
+                                            <th data-halign="center" data-field="title">名称</th>
+                                            <th data-halign="center" data-field="module">模块</th>
+                                            <th data-halign="center"  data-field="type">类型</th>
+                                            <th data-halign="center" data-field="description">描述</th>
+                                            <th data-halign="center" data-field="operate">操作</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- End Example Pagination -->
+                    </div>
+
+                   
+                </div>
+            </div>
+        </div>
+        <!-- End Panel Other -->
+    </div>
+    <div style="position: absolute;top:100px;left: 200px;background: #000;z-index: 1000">
+        
+    </div>
+{include file="public/footer"}
+<script>
+    var $table = $('#table'),
+        $remove = $('#remove'),
+        selections = [];
+    $table.on('click-row.bs.table', function (e, row) {
+        console.log(row);
+    });
+
+    $table.on('dbl-click-row.bs.table', function (e, row) {
+       swal({
+                title: "您确定要删除这条信息吗",
+                text: "删除后将无法恢复，请谨慎操作！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "删除",
+                closeOnConfirm: false
+            }, function () {
+                swal("删除成功！", "您已经永久删除了这条信息。", "success");
+            });
+    });
+
+    window.operateEvents = {
+        'click .like': function (e, value, row, index) {
+            alert('You click like action, row: ' + JSON.stringify(row));
+            var url = '{:url('role/role_edit','','')}';
+            var id = row.id;
+            window.location.href= url + '/id/' + id;
+        },
+        'click .list': function (e, value, row, index) {
+            var url = '{:url('role/access','','')}';
+            var id = row.id;
+            window.location.href= url + '/group_id/' + id;
+            
+        },
+        'click .remove': function (e, value, row, index) {
+             swal({
+                title: "您确定要删除这条信息吗",
+                text: "删除后将无法恢复，请谨慎操作！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "删除",
+                closeOnConfirm: false
+            }, function () {
+                $.post('{:url('role/role_del')}', {'id':row.id}, function(data) {
+                    if(data.status){
+                        swal("删除成功！", "您已经永久删除了这条信息。", "success");
+                        $table.bootstrapTable('remove', {
+                            field: 'id',
+                            values: [row.id]
+                        });
+                    }
+                });
+            });
+        }
+    };
+
+    $table.bootstrapTable({
+            height: getHeight(),
+            columns: [
+                [
+                    
+                    {
+                        field: 'state',
+                        checkbox: true,
+                        rowspan: 1,
+                        width:50,
+                        align: 'center',
+                        valign: 'middle'
+                    },
+                    {
+                        field:'title',
+                        title:'名称',
+                        align: 'center'
+                    },
+                    {
+                        field: 'module',
+                        title: '模块',
+                        sortable: true,
+                        editable: true,
+                        align: 'center'
+                    }, {
+                        field: 'type',
+                        title: '类型',
+                        sortable: true,
+                        align: 'center',
+                        
+                    }, 
+                    
+                    {
+                        field:'description',
+                        title:'描述',
+                        align: 'center'
+                    },
+                    {
+                        field: 'operate',
+                        title: '操作',
+                        align: 'center',
+                        events: operateEvents,
+                        formatter: operateFormatter
+                    }
+                ]
+            ]
+        });
+  
+    function getIdSelections() {
+        return $.map($table.bootstrapTable('getSelections'), function (row) {
+            return row.id
+        });
+    }
+
+    function responseHandler(res) {
+        $.each(res.rows, function (i, row) {
+            row.state = $.inArray(row.id, selections) !== -1;
+        });
+        return res;
+    }
+
+    function detailFormatter(index, row) {
+        var html = [];
+        $.each(row, function (key, value) {
+            html.push('<p><b>' + key + ':</b> ' + value + '</p>');
+        });
+        return html.join('');
+    }
+
+    function operateFormatter(value, row, index) {
+        return [
+            '<a class="list" href="javascript:void(0)" title="访问授权">',
+            '<i class="glyphicon glyphicon-list"></i>',
+            '</a>  ',
+            '<a class="like" href="javascript:void(0)" title="编辑">',
+            '<i class="glyphicon glyphicon-edit"></i>',
+            '</a>  ',
+            '<a class="remove" href="javascript:void(0)" title="删除">',
+            '<i class="glyphicon glyphicon-remove"></i>',
+            '</a>'
+        ].join('');
+    }
+
+    window.operateEvents = {
+        'click .like': function (e, value, row, index) {
+            alert('You click like action, row1: ' + JSON.stringify(row));
+              
+        },
+        'click .list': function (e, value, row, index) {
+            alert('You click like action, row1: ' + JSON.stringify(row));
+              
+        },
+        'click .remove': function (e, value, row, index) {
+             swal({
+                title: "您确定要删除这条信息吗",
+                text: "删除后将无法恢复，请谨慎操作！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "删除",
+                closeOnConfirm: false
+            }, function () {
+                swal("删除成功！", "您已经永久删除了这条信息。", "success");
+            });
+            // $table.bootstrapTable('remove', {
+            //     field: 'id',
+            //     values: [row.id]
+            // });
+        }
+    };
+
+    function totalTextFormatter(data) {
+        return 'Total';
+    }
+
+    function totalNameFormatter(data) {
+        return data.length;
+    }
+
+    function totalPriceFormatter(data) {
+        var total = 0;
+        $.each(data, function (i, row) {
+            total += +(row.price.substring(1));
+        });
+        return '$' + total;
+    }
+
+    function getHeight() {
+        return $(window).height() - $('h1').outerHeight(true);
+    }
+
+
+
+    function getScript(url, callback) {
+        var head = document.getElementsByTagName('head')[0];
+        var script = document.createElement('script');
+        script.src = url;
+
+        var done = false;
+        // Attach handlers for all browsers
+        script.onload = script.onreadystatechange = function() {
+            if (!done && (!this.readyState ||
+                    this.readyState == 'loaded' || this.readyState == 'complete')) {
+                done = true;
+                if (callback)
+                    callback();
+
+                // Handle memory leak in IE
+                script.onload = script.onreadystatechange = null;
+            }
+        };
+
+        head.appendChild(script);
+
+        // We handle everything using the script element injection
+        return undefined;
+    }
+
+</script>

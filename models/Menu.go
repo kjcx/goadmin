@@ -31,9 +31,7 @@ func List() []*Menu {
 	M := Menu{}
 	menu,_ := M.Select(0)
 
-	var i int
 	for _,v:= range menu {
-		i++
 		fmt.Println(v)
 		if v.Pid == 0 {
 			childmenu,_ := M.Select(v.Id)
@@ -41,4 +39,28 @@ func List() []*Menu {
 		}
 	}
 	return menu
+}
+//查询用户对应的菜单列表
+func MenuList(Uid int) []*Menu{
+	M := Menu{}
+	menu,_ := M.Select(0)
+	var UserMenu []*Menu
+	//过滤掉当前人拥有的
+	ar := AuthRule{}
+	for _,v := range menu {
+		bool := ar.Check(v.Url,Uid,1)
+		if bool {
+			//保留url
+			fmt.Println(v.Id,"=>",v.Url)
+			UserMenu = append(UserMenu,v)
+			//fmt.Println("M",len(UserMenu))
+		}
+	}
+	for _,v:= range UserMenu {
+		if v.Pid == 0 {
+			childmenu,_ := M.Select(v.Id)
+			v.Child = childmenu
+		}
+	}
+	return UserMenu
 }

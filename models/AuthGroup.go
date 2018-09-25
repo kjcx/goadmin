@@ -63,3 +63,22 @@ func GetGroups(Uid int) (bool,[]string)  {
 	//fmt.Println(AG)
 	//return &AG
 }
+//查询角色列表
+func (ag *AuthGroup)List(cuid int) (bool,[]AuthGroup){
+	o := orm.NewOrm()
+	var AG  []AuthGroup
+	var bool bool
+	num,err := o.QueryTable("th_auth_rule").Filter("cuid", cuid).All(&AG)
+	if err == orm.ErrNoRows {
+		bool = false
+		fmt.Println("查询不到",num)
+	} else if err == orm.ErrMissPK {
+		bool = false
+		fmt.Println("找不到主键",num)
+
+	} else {
+		bool = true
+
+	}
+	return bool,AG
+}
