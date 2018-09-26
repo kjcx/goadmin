@@ -15,9 +15,11 @@ func init() {
 	beego.Router("/admin/menu/ajax", &controllers.MenuController{},"*:Ajax")
 	beego.Router("/admin/menu/edit/:id", &controllers.MenuController{},"*:Edit")
 	beego.Router("/admin/menu/del/:id", &controllers.MenuController{},"*:Del")
-	beego.Router(" /admin/role/role_list", &controllers.RoleController{},"*:List")
-	beego.Router(" admin/role/role_ajax", &controllers.RoleController{},"*:Ajax")
-	beego.Router(" admin/role/role_edit", &controllers.RoleController{},"*:Edit")
+	beego.Router("/admin/role/role_list", &controllers.RoleController{},"*:List")
+	beego.Router("/admin/role/role_access/:group_id", &controllers.RoleController{},"*:Access")
+	beego.Router("/admin/role/WriteGroup", &controllers.RoleController{},"*:WriteGroup")
+	beego.Router("/admin/role/role_ajax", &controllers.RoleController{},"*:Ajax")
+	beego.Router("/admin/role/role_edit/id/:id", &controllers.RoleController{},"*:Edit")
 	beego.Router("/admin/admin/admin_list", &controllers.AdminController{},"*:List")
 	beego.Router("/admin/user/user_list", &controllers.UserController{},"*:List") //用户列表
 	beego.Router("/admin/member/member_list", &controllers.MemberController{},"*:List") //用户列表

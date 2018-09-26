@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/astaxie/beego"
 	_ "github.com/go-sql-driver/mysql"
+	"goadmin/common"
 	"goadmin/models"
 )
 type IndexController struct {
@@ -48,8 +49,9 @@ func (c *IndexController)Index(){
 	if IsAdmin {
 		c.Data["Menu"] = menu
 	}else{
-		menu := models.MenuList(4)
-		c.Data["Menu"] = menu
+		menu := models.MenuList(3)
+		common.UserMenu = menu
+		c.Data["Menu"] = common.UserMenu
 	}
 
 	c.TplName = "admin/index/index.html"

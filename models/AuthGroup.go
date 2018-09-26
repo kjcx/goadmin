@@ -83,3 +83,34 @@ func (ag *AuthGroup)List(cuid int) (bool,[]AuthGroup){
 	}
 	return bool,AG
 }
+
+
+//查询角色列表
+func (ag *AuthGroup)ListOne(id int,cuid int) (bool,AuthGroup){
+	o := orm.NewOrm()
+	AG := AuthGroup{}
+	var bool bool
+	num,err := o.QueryTable("th_auth_group").Filter("cuid", cuid).Filter("id",id).All(&AG)
+	if err == orm.ErrNoRows {
+		bool = false
+		fmt.Println("查询不到",num)
+	} else if err == orm.ErrMissPK {
+		bool = false
+		fmt.Println("找不到主键",num)
+
+	} else {
+		bool = true
+
+	}
+	return bool,AG
+}
+
+func (ag *AuthGroup)Save(id int,rules[]string){
+	o := orm.NewOrm()
+	AG := AuthGroup{Id:id}
+	AG.Rules = strings.Join(rules,",")
+	fmt.Println(AG)
+	if num, err := o.Update(&AG,"rules"); err == nil {
+		fmt.Println(num)
+	}
+}
