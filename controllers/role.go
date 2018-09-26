@@ -25,6 +25,8 @@ func (c *RoleController)Ajax(){
 		c.Data["json"] = r
 		c.ServeJSON()
 	}
-
+}
+func (c *RoleController)Edit()  {
+	
 }
 

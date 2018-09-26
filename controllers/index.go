@@ -48,7 +48,7 @@ func (c *IndexController)Index(){
 	if IsAdmin {
 		c.Data["Menu"] = menu
 	}else{
-		menu := models.MenuList(2)
+		menu := models.MenuList(4)
 		c.Data["Menu"] = menu
 	}
 
@@ -56,8 +56,5 @@ func (c *IndexController)Index(){
 }
 
 func (c *IndexController)Indexv1()  {
-	ar := models.AuthRule{}
-	ar.GetAuthList(3)
-
 	c.TplName = "admin/index/index_v1.html"
 }

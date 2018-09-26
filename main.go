@@ -9,8 +9,7 @@ import (
 func init() {
 	orm.RegisterDriver("mysql", orm.DRMySQL)
 
-	orm.RegisterDataBase("default", "mysql", "root:123456@tcp(192.168.31.232:3306)/gonghui?charset=utf8", 30)
-	//
+	orm.RegisterDataBase("default", "mysql", "root:shenyangtaihuakeji2017@tcp(sjs.jygeili.com:3306)/kada?charset=utf8", 30)
 	//// register model
 	orm.RegisterModelWithPrefix("th_", new(models.Menu))
 	orm.RegisterModelWithPrefix("th_", new(models.User))
