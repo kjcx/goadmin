@@ -26,7 +26,6 @@ type AuthGroup struct {
 	*/
 func GetGroups(Uid int) (bool,[]string)  {
 	u :=  User{}
-	AG := AuthGroup{Id: Uid}
 	var role_id int
 	var bool bool
 	role_id,bool = u.GetRoleId(Uid)
@@ -36,6 +35,8 @@ func GetGroups(Uid int) (bool,[]string)  {
 		fmt.Println("查询失败")
 	}
 	o := orm.NewOrm()
+	AG := AuthGroup{Id: role_id}
+
 
 
 	err := o.Read(&AG)
@@ -66,9 +67,9 @@ func GetGroups(Uid int) (bool,[]string)  {
 //查询角色列表
 func (ag *AuthGroup)List(cuid int) (bool,[]AuthGroup){
 	o := orm.NewOrm()
-	var AG  []AuthGroup
+	AG := []AuthGroup{}
 	var bool bool
-	num,err := o.QueryTable("th_auth_rule").Filter("cuid", cuid).All(&AG)
+	num,err := o.QueryTable("th_auth_group").Filter("cuid", cuid).All(&AG)
 	if err == orm.ErrNoRows {
 		bool = false
 		fmt.Println("查询不到",num)

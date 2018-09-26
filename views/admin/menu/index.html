@@ -110,7 +110,7 @@
     window.operateEvents = {
         'click .like': function (e, value, row, index) {
            // alert('You click like action, row: ' + JSON.stringify(row));
-            var url = {{urlfor "MenuController.Edit"}}
+            var url = "{{urlfor "MenuController.Edit"}}";
             var id = row.id;
             window.location.href= url + '/id/' + id;
         },
