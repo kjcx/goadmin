@@ -15,6 +15,8 @@ func init() {
 	orm.RegisterModelWithPrefix("th_", new(models.User))
 	orm.RegisterModelWithPrefix("th_", new(models.AuthGroup))
 	orm.RegisterModelWithPrefix("th_", new(models.AuthRule))
+	orm.RegisterModelWithPrefix("th_", new(models.Member))
+	orm.RegisterModelWithPrefix("th_", new(models.Plot))
 }
 func FunStatus(status int)(out string){
 	if status == 1 {

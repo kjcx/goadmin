@@ -134,10 +134,10 @@
 <block name="script">
 <script type="text/javascript" charset="utf-8">
     
-        var rules = "{{.this_group.Rules}}"
-                console.log(rules)
+        var rule = "{{.this_group.Rules}}"
+        var rules = rule.split(",")
         $('.auth_rules').each(function(){
-            if( $.inArray( parseInt(this.value,10),rules )>-1 ){
+            if( $.inArray(this.value,rules )>-1 ){
                 $(this).prop('checked',true);
             }
             if(this.value==''){

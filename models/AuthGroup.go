@@ -114,3 +114,30 @@ func (ag *AuthGroup)Save(id int,rules[]string){
 		fmt.Println(num)
 	}
 }
+
+func (ag *AuthGroup)Edit(id int,title string,desc string){
+	o := orm.NewOrm()
+	AG := AuthGroup{Id:id}
+	AG.Title = title
+	AG.Description = desc
+	if num, err := o.Update(&AG,"title","description"); err == nil {
+		fmt.Println(num)
+	}
+}
+func (ag *AuthGroup)Add(title ,desc string ){
+	o := orm.NewOrm()
+	AG := AuthGroup{Title:title,Description:desc,Module:"admin",Status:1,Cuid:1}
+
+	if num, err := o.Insert(&AG); err == nil {
+		fmt.Println(num)
+	}
+}
+//删除
+func (ag *AuthGroup)Del(id int){
+	o := orm.NewOrm()
+	AG := AuthGroup{Id:id}
+
+	if num, err := o.Delete(&AG); err == nil {
+		fmt.Println(num)
+	}
+}

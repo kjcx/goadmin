@@ -13,7 +13,7 @@
                         <div class="example-wrap">
                             <h4 class="example-title">
 								<div id="toolbar">
-							        <a href="{:url('admin/role/role_add')}"><button  class="btn btn-success">
+							        <a href="{{urlfor "RoleController.Add"}}"><button  class="btn btn-success">
 							           添加角色
 							        </button></a>
 							    </div>
@@ -83,15 +83,13 @@
 
     window.operateEvents = {
         'click .like': function (e, value, row, index) {
-            var url = "{{urlfor "RoleController.Edit"}}";
-            alert(url)
+            var url = "/admin/role/role_edit/";
             var id = row.Id;
-            window.location.href= url + '/id/' + id;
+            window.location.href= url   + id;
         },
         'click .list': function (e, value, row, index) {
             var id = row.Id;
             var url = "/admin/role/role_access/" + id;
-            alert(url)
             window.location.href= url
 
         },
@@ -105,12 +103,12 @@
                 confirmButtonText: "删除",
                 closeOnConfirm: false
             }, function () {
-                $.post('/', {'id':row.id}, function(data) {
+                $.post('/admin/role/role_del', {"id":row.Id}, function(data) {
                     if(data.status){
                         swal("删除成功！", "您已经永久删除了这条信息。", "success");
                         $table.bootstrapTable('remove', {
-                            field: 'id',
-                            values: [row.id]
+                            field: 'Id',
+                            values: [row.Id]
                         });
                     }
                 });
