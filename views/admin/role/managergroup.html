@@ -1,5 +1,5 @@
 <!-- 管理员用户组新增和编辑页面 -->
-{include file="public/header"}
+{{template "/admin/public/header.html"}}
 <style>
 
 /* 授权编辑页 */
@@ -71,48 +71,47 @@
                         </div> -->
                     </div>
                     <div class="ibox-content">
-                    <form action="{:url('Role/writeGroup')}" enctype="application/x-www-form-urlencoded" method="POST" class="form-horizontal auth-form">
-                          {volist name="node_list" id="node" }
+                    <form action="{{urlfor "RoleController.WriteGroup"}}" enctype="application/x-www-form-urlencoded" method="POST" class="form-horizontal auth-form">
+                          {{range .node_list}}
                         <dl class="checkmod">
                             <dt class="hd">
                              <label class="checkbox-inline">
-                                        <input type="checkbox"  class="auth_rules rules_all" value="<?php echo $main_rules[$node['url']] ?>" name="rules[]">{$node.title}管理</label>
+                                        <input type="checkbox"  class="auth_rules rules_all" value="{{.Id}}" name="rules[]">{{.Title}}管理</label>
 <!-- 
                                 <label class="checkbox"><input class="auth_rules rules_all" type="checkbox" name="rules[]" value="<?php echo $main_rules[$node['url']] ?>">{$node.title}管理</label> -->
                             </dt>
                             <dd class="bd">
-                                {notempty name="node['child']" }
-                                <present name="node['child']">
-                                {volist name="node['child']" id="child" }
+                                {{/*<present name="node['child']">*/}}
+                                {{range .Child}}
                                     <div class="rule_check">
                                         <div>
-                                            <label class="checkbox-inline" {notempty name="child['tip']"}title='{$child.tip}' {/notempty} >
-                                                <input class="auth_rules rules_row" type="checkbox" name="rules[]" value="<?php echo $auth_rules[$child['url']] ?>">{$child.title}
+                                            <label class="checkbox-inline" {notempty name="child['tip']"}title='{$child.tip}'>
+                                                <input class="auth_rules rules_row" type="checkbox" name="rules[]" value="{{.Id}}">{{.Title}}
                                                </label>
 
                                         </div>
-                                        {notempty name="child['operator']"}
-                                           <span class="divsion">&nbsp;</span>
-                                           <span class="child_row">
-                                               {volist name="child['operator']" id="op"}
-                                                   <label class="checkbox-inline" {notempty name="op['tip']"} title='{$op.tip}'{/notempty}>
-                                                       <input class="auth_rules" type="checkbox" name="rules[]"
-                                                       value="<?php echo $auth_rules[$op['url']] ?>"/>{$op.title}
-                                                   </label>
-                                               {/volist}
-                                           </span>
-                                        {/notempty}
+                                        {{/*{notempty name="child['operator']"}*/}}
+                                           {{/*<span class="divsion">&nbsp;</span>*/}}
+                                           {{/*<span class="child_row">*/}}
+                                               {{/*{volist name="child['operator']" id="op"}*/}}
+                                                   {{/*<label class="checkbox-inline" {notempty name="op['tip']"} title='{$op.tip}'{/notempty}>*/}}
+                                                       {{/*<input class="auth_rules" type="checkbox" name="rules[]"*/}}
+                                                       {{/*value="<?php echo $auth_rules[$op['url']] ?>"/>{$op.title}*/}}
+                                                   {{/*</label>*/}}
+                                               {{/*{/volist}*/}}
+                                           {{/*</span>*/}}
+                                        {{/*{/notempty}*/}}
                                     </div>
-                                {/volist}
-                                </present>
-                                {/notempty}
+                                {{end}}
+                                {{/*</present>*/}}
+                                {{/*{/notempty}*/}}
                             </dd>
                         </dl>
-                    {/volist}
+                    {{end}}
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                                 <div class="col-sm-4 col-sm-offset-4">
-                                  <input type="hidden" name="id" value="{$this_group.id}" />
+                                  <input type="hidden" name="id" value="{{.this_group.Id}}" />
                                     <button class="btn btn-primary" type="submit">保存内容</button>
                                     <button class="btn btn-white" type="submit">取消</button>
                                 </div>
@@ -133,14 +132,12 @@
 
 </body>
 <block name="script">
-<script type="text/javascript" src="__STATIC__/qtip/jquery.qtip.min.js"></script>
-<script src="__JS__/jquery.min.js?v=2.1.4"></script>
-<link rel="stylesheet" type="text/css" href="__STATIC__/qtip/jquery.qtip.min.css" media="all">
 <script type="text/javascript" charset="utf-8">
     
-        var rules = [{$this_group.rules}];
+        var rule = "{{.this_group.Rules}}"
+        var rules = rule.split(",")
         $('.auth_rules').each(function(){
-            if( $.inArray( parseInt(this.value,10),rules )>-1 ){
+            if( $.inArray(this.value,rules )>-1 ){
                 $(this).prop('checked',true);
             }
             if(this.value==''){
