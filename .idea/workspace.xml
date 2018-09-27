@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a8f5d221-14c4-4d87-8558-354999fba412" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/common/func.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/func.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/index.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/role.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/role.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/goadmin" beforeDir="false" afterPath="$PROJECT_DIR$/goadmin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/AuthGroup.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/AuthGroup.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routers/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/routers/router.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/admin/role/managergroup.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/admin/role/managergroup.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/admin/role/role_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/admin/role/role_list.html" afterDir="false" />
-    </list>
+    <list default="true" id="a8f5d221-14c4-4d87-8558-354999fba412" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -236,8 +227,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-25" />
-    <option name="y" value="23" />
+    <option name="x" value="60" />
+    <option name="y" value="27" />
     <option name="width" value="1920" />
     <option name="height" value="1004" />
   </component>
@@ -320,8 +311,7 @@
     </option>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-25" y="23" width="1920" height="1004" extended-state="0" />
-    <editor active="true" />
+    <frame x="60" y="27" width="1920" height="1004" extended-state="0" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2630458" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
