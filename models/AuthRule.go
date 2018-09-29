@@ -37,8 +37,6 @@ type AuthRule struct {
   */
 func (u *AuthRule)Check(Url string,Uid int,Mode int) bool{
 	authlist := u.GetAuthList(Uid)
-	fmt.Println("Url",Url)
-	fmt.Println("authlist",authlist)
 	for _,v := range authlist {
 		if v.Name == Url {
 			return true

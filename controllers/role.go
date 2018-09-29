@@ -46,7 +46,10 @@ func (c *RoleController)Add(){
 		Description := c.Input().Get("description")
 		ag := models.AuthGroup{}
 		ag.Add(Title,Description)
-		c.TplName = "admin/role/role_list.html"
+		//c.TplName = "admin/role/role_list.html"
+		url := c.URLFor("RoleController.List")
+		fmt.Println("url",url)
+		c.Redirect(url, 302)
 	}else {
 		c.TplName = "admin/role/role_add.html"
 	}

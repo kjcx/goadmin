@@ -85,9 +85,9 @@
     // });
 
     $table.on('click-cell.bs.table', function (e, row,field, value ) {
-        var pid = value.id;
-        $('#toolbar a').attr('href',"{:url('admin/menu/add','','')}" + '/pid/' + pid);
-        if(row == 'title'){
+        var pid = value.Id;
+        $('#toolbar a').attr('href',"/admin/menu/add/"  + pid);
+        if(row == 'Title'){
        	    $table.bootstrapTable('refresh',{query: {pid: pid,offset:0}});
         }
     });

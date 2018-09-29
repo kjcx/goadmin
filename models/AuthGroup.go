@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"github.com/astaxie/beego/orm"
+	"strconv"
 	"strings"
 )
 
@@ -83,7 +84,19 @@ func (ag *AuthGroup)List(cuid int) (bool,[]AuthGroup){
 	}
 	return bool,AG
 }
-
+func Check(Id int,Uid int) bool{
+	bool,Ids := GetGroups(Uid)
+	if bool {
+		for _,id := range Ids {
+			idint,_ := strconv.Atoi(id)
+			if Id == idint {
+				return true
+			}
+		}
+		return false
+	}
+	return false
+}
 
 //查询角色列表
 func (ag *AuthGroup)ListOne(id int,cuid int) (bool,AuthGroup){

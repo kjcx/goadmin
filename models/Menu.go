@@ -22,8 +22,6 @@ func (m *Menu)Select(pid int) ([]*Menu,int64) {
 	o := orm.NewOrm()
 	var menu []*Menu
 	num,_ := o.QueryTable("th_menu").Filter("pid",pid).OrderBy("Sort").All(&menu)
-	fmt.Println("num:",num)
-	fmt.Println("pid",menu)
 	return menu,num
 }
 func List() []*Menu {
@@ -32,7 +30,7 @@ func List() []*Menu {
 	menu,_ := M.Select(0)
 
 	for _,v:= range menu {
-		fmt.Println(v)
+		//fmt.Println(v)
 		if v.Pid == 0 {
 			childmenu,_ := M.Select(v.Id)
 			v.Child = childmenu
@@ -46,9 +44,8 @@ func MenuList(Uid int) []*Menu{
 	menu,_ := M.Select(0)
 	var UserMenu []*Menu
 	//过滤掉当前人拥有的
-	ar := AuthRule{}
 	for _,v := range menu {
-		bool := ar.Check(v.Url,Uid,1)
+		bool := Check(v.Id,3)
 		if bool {
 			//保留url
 			fmt.Println(v.Id,"=>",v.Url)
@@ -63,4 +60,14 @@ func MenuList(Uid int) []*Menu{
 		}
 	}
 	return UserMenu
+}
+func Add(menu Menu) bool{
+	o := orm.NewOrm()
+	//mm := Menu{Title:strmenu["title"]}
+	num,_ := o.Insert(menu)
+	if num > 0 {
+		return true
+	}else {
+		return false
+	}
 }
