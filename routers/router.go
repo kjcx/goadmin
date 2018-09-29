@@ -13,6 +13,7 @@ func init() {
 	beego.Router("/admin/index/index_v1", &controllers.IndexController{},"*:Indexv1")
 	beego.Router("/admin/menu/index", &controllers.MenuController{},"*:Index")
 	beego.Router("/admin/menu/ajax", &controllers.MenuController{},"*:Ajax")
+	beego.Router("/admin/menu/add/:id", &controllers.MenuController{},"*:Add")
 	beego.Router("/admin/menu/edit/:id", &controllers.MenuController{},"*:Edit")
 	beego.Router("/admin/menu/del/:id", &controllers.MenuController{},"*:Del")
 	beego.Router("/admin/role/role_list", &controllers.RoleController{},"*:List")
