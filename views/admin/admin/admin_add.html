@@ -1,4 +1,4 @@
-{include file="public/header"}
+{{template "/admin/public/header.html"}}
 <body>
 <div class="row">
             <div class="col-sm-12">
@@ -21,12 +21,6 @@
 						            <input type="password" required="true" class="form-control" name="password" placeholder="请输入密码"> <span class="help-block m-b-none"></span>
 						        </div>
 						    </div>
-						    <div class="form-group">
-						        <label class="col-sm-3 control-label">结算授权码：</label>
-						        <div class="col-sm-9">
-						            <input type="password" required="true" class="form-control" name="settlement_code" placeholder="请输入结算授权码"> <span class="help-block m-b-none"></span>
-						        </div>
-						    </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">角色:</label>
                                 <div class="col-sm-9">
@@ -39,18 +33,7 @@
 
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">商家:</label>
-                                <div class="col-sm-9">
-                                    <select  class="form-control" name="business_id">
-											<option value="">请选择商家</option>
-                                        {volist name="business" id="vo"}
-                                        	<option value="{$vo.id}">{$vo.business_name}</option>
-										{/volist}
-                                    </select>
 
-                                </div>
-                            </div>
 						    <div class="form-group">
 						        <label class="col-sm-3 control-label">公司名称:</label>
 						        <div class="col-sm-9">

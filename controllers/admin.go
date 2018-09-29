@@ -31,7 +31,7 @@ func (c *AdminController)Ajax(){
 }
 
 func (c *AdminController)Add(){
-
+	c.TplName = "admin/admin/admin_add.html"
 }
 //编辑管理员
 func (c *AdminController)Edit(){
